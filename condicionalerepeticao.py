@@ -73,7 +73,7 @@ propaganda_online = [
 ]
 
 # Iterar os elementos da lista
-
+print("Dados dos usuários: ")
 for dado_de_usuario in propaganda_online:
     print(dado_de_usuario)
 
@@ -81,8 +81,16 @@ for dado_de_usuario in propaganda_online:
 
 paises = []
 for dado_de_usuario in propaganda_online:
-    ...
+    try:
+        if dado_de_usuario.get("idade", 0) > 30:
+            pais = dado_de_usuario.get("pais")
 
+            if pais and pais not in paises:
+                paises.append(pais)
+    except Exception as e:
+        print(f'Erro ao processar a idade do usuário: {e}')
+
+print('\nPaíses onde os usuários tem mais de 30 anos:')
 print(paises)
 
 # Leads
@@ -90,8 +98,18 @@ print(paises)
 leads = []
 
 for dado_de_usuario in propaganda_online:
-    ...
+    try:
+        if 'clicou_no_ad' in dado_de_usuario:
+            if dado_de_usuario['clicou_no_ad'] == 1:
+                leads.append(dado_de_usuario)
+        else:
+            print(f'Usuário da cidade {dado_de_usuario.get("cidade")} não tem informações de cliques')
+    except Exception as exc:
+        print(f'Erro ao processar o clique do suário: {exc}')
+    finally:
+        pass
 
+print('\nLeads que clicarm no anúncio: ')
 print(leads)
 
 # Cidades que usuários ficaram mais de 70 segundos no site
@@ -99,6 +117,22 @@ print(leads)
 cidades = []
 
 for dado_de_usuario in propaganda_online:
-    ...
+    try:
+        tempo = dado_de_usuario.get('tempo_gasto_site')
+        cidade = dado_de_usuario.get('cidade')
 
+        if tempo is not None:
+            if tempo > 70:
+                if cidade not in cidades:
+                    cidades.append(cidade)
+            elif tempo > 60:
+                print(f'Usuário da cidade {cidade} acessou e ficou entre 60-70 segundos no site')
+            else:
+                #Pretendo adicionar outras funcionalidades como: pessoas que ficaram menos de 60 segundos
+                pass
+        else:
+            print(f'Usu´rio da cidade {cidade} nao tem informação sobre tempo no site')
+    except Exception as exc:
+        print(f'Erro ao processar tempo do usuário: {exc}')
+print('\nCidades onde usuários passaram mais de 70 segundos no site:')
 print(cidades)
